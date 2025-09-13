@@ -40,8 +40,23 @@ Please provide a comprehensive answer based on the context provided.`;
 
       return response.choices[0]?.message?.content || "I couldn't generate a response. Please try again.";
     } catch (error) {
-      console.error('Grok API error:', error);
-      return "I'm experiencing technical difficulties. Please try again later.";
+      console.error('Groq API error details:', {
+        message: error.message,
+        status: error.status,
+        code: error.code,
+        type: error.type,
+        apiKey: process.env.GROQ_API_KEY ? 'SET' : 'NOT_SET'
+      });
+      
+      if (error.status === 401) {
+        return "API authentication failed. Please check the API key configuration.";
+      } else if (error.status === 429) {
+        return "API rate limit exceeded. Please try again in a moment.";
+      } else if (error.code === 'model_decommissioned') {
+        return "The AI model is no longer available. Please contact support.";
+      }
+      
+      return `I'm experiencing technical difficulties: ${error.message}. Please try again later.`;
     }
   }
 

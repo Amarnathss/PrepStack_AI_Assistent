@@ -452,6 +452,16 @@ export async function registerRoutes(app) {
     }
   });
 
+  // Health check endpoint for debugging
+  app.get("/api/health", (req, res) => {
+    res.json({
+      status: "OK",
+      environment: process.env.NODE_ENV,
+      groqApiKey: process.env.GROQ_API_KEY ? "SET" : "NOT_SET",
+      timestamp: new Date().toISOString()
+    });
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
