@@ -1,0 +1,43 @@
+{
+  "name": "ragstack-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development node server/index.js",
+    "start": "NODE_ENV=production node server/index.js",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "@octokit/rest": "^22.0.0",
+    "bcrypt": "^6.0.0",
+    "connect-pg-simple": "^10.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "drizzle-orm": "^0.39.1",
+    "drizzle-zod": "^0.7.0",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "jsonwebtoken": "^9.0.2",
+    "mammoth": "^1.10.0",
+    "memorystore": "^1.6.7",
+    "multer": "^2.0.2",
+    "nanoid": "^5.1.5",
+    "openai": "^5.11.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "pdfjs-dist": "^5.4.54",
+    "ws": "^8.18.0",
+    "zod": "^3.24.2",
+    "zod-validation-error": "^3.4.0"
+  },
+  "devDependencies": {
+    "cross-env": "^10.0.0",
+    "drizzle-kit": "^0.30.4"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.8"
+  }
+}

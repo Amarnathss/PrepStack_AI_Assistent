@@ -1,32 +1,52 @@
-name: ragstack-generator
+name: ragstack-ai-assistant
 services:
-- name: api
-  source_dir: /
+- name: backend
+  source_dir: /backend
   github:
     repo: Amarnathss/RAGStackGen
     branch: main
-  run_command: cd dist && npm start
-  build_command: npm run build && cd dist && npm install --production
+  run_command: npm start
   environment_slug: node-js
   instance_count: 1
   instance_size_slug: basic-xxs
-  http_port: 5000
   envs:
   - key: NODE_ENV
     value: production
-  - key: PORT
-    value: "5000"
   - key: DATABASE_URL
-    value: ${DATABASE_URL}
+    scope: RUN_AND_BUILD_TIME
     type: SECRET
   - key: GROQ_API_KEY
-    value: ${GROQ_API_KEY}
-    type: SECRET
-  - key: GITHUB_TOKEN
-    value: ${GITHUB_TOKEN}
+    scope: RUN_AND_BUILD_TIME
     type: SECRET
   - key: JWT_SECRET
-    value: ${JWT_SECRET}
+    scope: RUN_AND_BUILD_TIME
     type: SECRET
-  health_check:
-    http_path: /api/health
+  - key: GITHUB_TOKEN
+    scope: RUN_AND_BUILD_TIME
+    type: SECRET
+  - key: PORT
+    value: "8080"
+  http_port: 8080
+  routes:
+  - path: /api
+- name: frontend
+  source_dir: /frontend
+  github:
+    repo: Amarnathss/RAGStackGen
+    branch: main
+  build_command: npm run build
+  environment_slug: node-js
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  routes:
+  - path: /
+static_sites:
+- name: frontend-static
+  source_dir: /frontend/dist
+  github:
+    repo: Amarnathss/RAGStackGen
+    branch: main
+  build_command: npm install && npm run build
+  catchall_document: index.html
+  routes:
+  - path: /
