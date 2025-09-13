@@ -458,8 +458,34 @@ export async function registerRoutes(app) {
       status: "OK",
       environment: process.env.NODE_ENV,
       groqApiKey: process.env.GROQ_API_KEY ? "SET" : "NOT_SET",
+      groqApiKeyLength: process.env.GROQ_API_KEY ? process.env.GROQ_API_KEY.length : 0,
+      groqApiKeyPrefix: process.env.GROQ_API_KEY ? process.env.GROQ_API_KEY.substring(0, 10) + "..." : "NONE",
       timestamp: new Date().toISOString()
     });
+  });
+
+  // Debug endpoint for testing Groq API directly
+  app.get("/api/debug/groq", async (req, res) => {
+    try {
+      const { GroqService } = await import('./services/groqService.js');
+      const groqService = new GroqService();
+      
+      const testResponse = await groqService.generateAnswer("Hello", "Test context");
+      
+      res.json({
+        success: true,
+        response: testResponse,
+        apiKeyStatus: process.env.GROQ_API_KEY ? "SET" : "NOT_SET"
+      });
+    } catch (error) {
+      res.json({
+        success: false,
+        error: error.message,
+        errorCode: error.code,
+        errorStatus: error.status,
+        apiKeyStatus: process.env.GROQ_API_KEY ? "SET" : "NOT_SET"
+      });
+    }
   });
 
   const httpServer = createServer(app);

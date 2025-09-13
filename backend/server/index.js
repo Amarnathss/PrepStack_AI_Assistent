@@ -6,6 +6,18 @@ import { registerRoutes } from "./routes.js";
 // Load environment variables
 dotenv.config();
 
+// Fallback environment variables for production if DigitalOcean doesn't load them properly
+if (process.env.NODE_ENV === 'production' && !process.env.GROQ_API_KEY) {
+  console.log('⚠️ Environment variables not loaded, trying fallback...');
+  // These would normally be set in DigitalOcean environment variables
+  // This is a temporary fallback for debugging
+}
+
+console.log('🔧 Environment Check:');
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('GROQ_API_KEY:', process.env.GROQ_API_KEY ? 'SET (' + process.env.GROQ_API_KEY.length + ' chars)' : 'NOT_SET');
+console.log('DATABASE_URL:', process.env.DATABASE_URL ? 'SET' : 'NOT_SET');
+
 // Simple logging function
 function log(message, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
