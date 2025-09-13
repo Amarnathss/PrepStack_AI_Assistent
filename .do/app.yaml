@@ -1,10 +1,11 @@
 name: ragstack-ai-assistant
 services:
-- name: backend
-  source_dir: /backend
+- name: web
+  source_dir: /
   github:
     repo: Amarnathss/RAGStackGen
     branch: main
+  build_command: npm run build
   run_command: npm start
   environment_slug: node-js
   instance_count: 1
@@ -27,26 +28,5 @@ services:
   - key: PORT
     value: "8080"
   http_port: 8080
-  routes:
-  - path: /api
-- name: frontend
-  source_dir: /frontend
-  github:
-    repo: Amarnathss/RAGStackGen
-    branch: main
-  build_command: npm run build
-  environment_slug: node-js
-  instance_count: 1
-  instance_size_slug: basic-xxs
-  routes:
-  - path: /
-static_sites:
-- name: frontend-static
-  source_dir: /frontend/dist
-  github:
-    repo: Amarnathss/RAGStackGen
-    branch: main
-  build_command: npm install && npm run build
-  catchall_document: index.html
   routes:
   - path: /
