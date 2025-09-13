@@ -13,10 +13,10 @@ services:
   envs:
   - key: NODE_ENV
     value: production
-  - key: DATABASE_URL
+  - key: GROQ_API_KEY
     scope: RUN_AND_BUILD_TIME
     type: SECRET
-  - key: GROQ_API_KEY
+  - key: DATABASE_URL
     scope: RUN_AND_BUILD_TIME
     type: SECRET
   - key: JWT_SECRET
